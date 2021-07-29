@@ -2,11 +2,11 @@ import Head from "next/head";
 // import Image from 'next/image'
 import axios from "axios";
 import _ from "lodash";
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
+import { GetServerSideProps } from "next";
 
 interface Props {}
 
-export default function Home(props) {
+export default function Home(props: Props) {
   console.log(props);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
