@@ -148,12 +148,12 @@ export default function Home(props: Props) {
     //   stat: getTotalNftCount(props.assetCount),
     // },
     {
-      name: "Porfolio in USD",
-      stat: `$${_.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)}`,
-    },
-    {
       name: "ETH Price",
       stat: `$${props.ethPrice}`,
+    },
+    {
+      name: "Porfolio in USD",
+      stat: `$${_.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)}`,
     }
   ];
 
