@@ -276,7 +276,7 @@ const fetchCollections = async (owner: string) => {
 };
 
 const fetchAssets = async (owner: string) => {
-  const max = 10;
+  const max = 20;
   const limit = 50;
   const order = "desc";
   let offset = 0;
