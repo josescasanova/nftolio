@@ -71,6 +71,11 @@ const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 //   return _.sum(_.map(keys, (key) => assetCount[key] || 0));
 // };
 
+// ! V1 - tweet2see
+// TODO hide "portfolio in eth" w tooltip or something to say register to reveal
+// TODO if tweets about it then show the $
+
+// ! V2 - register
 // TODO add "register function" --- CONTRACT https://etherscan.io/address/0xdfa76df49ce8b01562f3de48126b8b6377c4e0a6#code @ 0.01 eth
 // TODO hide "portfolio in eth" w tooltip or something to say register to reveal
 // TODO do mini note that says "just send .01 eth to this address from the wallet u wanna see"
