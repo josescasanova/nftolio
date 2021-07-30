@@ -111,7 +111,7 @@ export default function Home(props: Props) {
   if (!props.collections.length) {
     return (
       <div className="text-sm font-medium text-gray-900">
-        No collections found.
+        No collections found. Try clearing cache.
       </div>
     );
   }
