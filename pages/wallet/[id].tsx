@@ -61,6 +61,9 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   return count * floorPrice;
 };
 
+// TODO update this to get the highest bids
+const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
+
 // TODO add "register function" --- CONTRACT https://etherscan.io/address/0xdfa76df49ce8b01562f3de48126b8b6377c4e0a6#code @ 0.01 eth
 // TODO hide "portfolio in eth" w tooltip or something to say register to reveal
 // TODO do mini note that says "just send .01 eth to this address from the wallet u wanna see"
@@ -212,7 +215,7 @@ export default function Home(props: Props) {
                           {getCountOwned(collection, props.assetCount)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {collection.stats?.floor_price}
+                          {getFloorInEth({collection)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {getTotalInEth(collection, props.assetCount)}
