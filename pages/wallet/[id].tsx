@@ -299,27 +299,31 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
 
-  const collections = await fetchCollections(owner);
-  const assets = await fetchAssets(owner);
-  // console.log("fetchAssets: ", assets);
+  try {
+    const collections = await fetchCollections(owner);
+    const assets = await fetchAssets(owner);
+    // console.log("fetchAssets: ", assets);
 
-  const assetCount = {};
-  (assets || []).forEach((asset: Asset) => {
-    const address = asset.asset_contract?.address;
-    if (address) {
-      if (assetCount.hasOwnProperty(address)) {
-        assetCount[address] += 1;
-      } else {
-        assetCount[address] = 1;
+    const assetCount = {};
+    (assets || []).forEach((asset: Asset) => {
+      const address = asset.asset_contract?.address;
+      if (address) {
+        if (assetCount.hasOwnProperty(address)) {
+          assetCount[address] += 1;
+        } else {
+          assetCount[address] = 1;
+        }
       }
-    }
-  });
+    });
 
-  return {
-    props: {
-      collections: collections || [],
-      assetCount,
-      assets,
-    },
-  };
+    return {
+      props: {
+        collections: collections || [],
+        assetCount: assetCount || {},
+        assets: assets || [],
+      },
+    };
+  } catch (err) {
+    console.log(err);
+  }
 };
