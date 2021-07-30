@@ -12,9 +12,8 @@ interface Collection {
   discord_url: string;
   external_url: string;
   featured_image_url: string;
-  image_url: string;
+  image_url?: string;
   name: string;
-
 }
 
 interface Props {
@@ -22,13 +21,13 @@ interface Props {
 }
 
 export default function Home(props: Props) {
-  console.log('props: ', props);
+  console.log("props: ", props);
   if (!props.collections.length) {
     return (
       <div className="text-sm font-medium text-gray-900">
         No collections found.
       </div>
-    )
+    );
   }
 
   return (
@@ -69,11 +68,13 @@ export default function Home(props: Props) {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10">
-                              <img
-                                className="h-10 w-10 rounded-full"
-                                src={asset.image_url}
-                                alt={asset.name}
-                              />
+                              {asset.image_url ? (
+                                <img
+                                  className="h-10 w-10 rounded-full"
+                                  src={asset.image_url}
+                                  alt={asset.name}
+                                />
+                              ) : null}
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
@@ -88,11 +89,11 @@ export default function Home(props: Props) {
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           {asset.external_url ? (
                             <a
-                            href={asset.external_url}
-                            className="text-indigo-600 hover:text-indigo-900"
-                          >
-                            Link
-                          </a>
+                              href={asset.external_url}
+                              className="text-indigo-600 hover:text-indigo-900"
+                            >
+                              Link
+                            </a>
                           ) : null}
                         </td>
                       </tr>
@@ -132,14 +133,13 @@ const fetchCollections = async (owner: string) => {
   return data;
 };
 
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
   const collections = await fetchCollections(owner);
   return {
     props: {
-      collections: collections || []
+      collections: collections || [],
     },
-  }
-}
+  };
+};
