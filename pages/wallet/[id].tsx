@@ -64,6 +64,11 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
 // TODO update this to get the highest bids
 const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 
+const getTotalNftCount = (assetCount: AssetCount) => {
+  const keys = _.keys(assetCount);
+  return _.sum(_.map(keys, (key) => assetCount[key] || 0));
+};
+
 // TODO add "register function" --- CONTRACT https://etherscan.io/address/0xdfa76df49ce8b01562f3de48126b8b6377c4e0a6#code @ 0.01 eth
 // TODO hide "portfolio in eth" w tooltip or something to say register to reveal
 // TODO do mini note that says "just send .01 eth to this address from the wallet u wanna see"
@@ -112,7 +117,10 @@ export default function Home(props: Props) {
   }
 
   const stats = [
-    // {name: 'ETH Price', stat: ''},
+    {
+      name: "Total Collections Checked",
+      stat: getTotalNftCount(props.assetCount),
+    },
     {
       name: "Porfolio in ETH",
       stat: _.sum(
@@ -268,13 +276,21 @@ const fetchCollections = async (owner: string) => {
 };
 
 const fetchAssets = async (owner: string) => {
+  const max = 10;
   const limit = 50;
   const order = "desc";
-  // TODO fetch all assets/iterate till response is empty array
   let offset = 0;
-  const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
-  const { data } = await axios.get(url);
-  return data;
+  const assets = [];
+  while (offset <= max) {
+    const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
+    const { data } = await axios.get(url);
+    offset += 1;
+    console.log("data: ", data);
+    assets.push(data.assets);
+    console.log("assets: ", assets);
+  }
+
+  return _.flatten(assets);
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -282,7 +298,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const owner = params.id as string | null;
 
   const collections = await fetchCollections(owner);
-  const { assets } = await fetchAssets(owner);
+  const assets = await fetchAssets(owner);
+  console.log("fetchAssets: ", assets);
 
   const assetCount = {};
   (assets || []).forEach((asset: Asset) => {
