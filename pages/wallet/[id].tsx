@@ -59,18 +59,12 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   if (!count) return 0;
 
   const floorPrice = collection.stats?.floor_price || 0;
-  // TODO get highest offer price?
   const total = count * floorPrice;
   return _.ceil(total * 100, 4) / 100;
 };
 
 // TODO update this to get the highest bids
 const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
-
-// const getTotalNftCount = (assetCount: AssetCount) => {
-//   const keys = _.keys(assetCount);
-//   return _.sum(_.map(keys, (key) => assetCount[key] || 0));
-// };
 
 // ! V1 - tweet2see
 // TODO hide "portfolio in eth" w tooltip or something to say register to reveal
@@ -115,12 +109,12 @@ const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 // }
 
 export default function Home(props: Props) {
-  // console.log("props: ", props);
   if (!props.collections.length) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <div className="text-sm font-medium text-gray-900">
-          No collections found. Try clearing cache or refreshing. prob a rate limit error ¯\_(ツ)_/¯
+          No collections found. Try clearing cache or refreshing. prob a rate
+          limit error ¯\_(ツ)_/¯
         </div>
       </div>
     );
@@ -144,10 +138,6 @@ export default function Home(props: Props) {
       name: "Porfolio in ETH",
       stat: portfolioInEth,
     },
-    // {
-    //   name: "Total Collections Checked",
-    //   stat: getTotalNftCount(props.assetCount),
-    // },
     {
       name: "ETH Price",
       stat: `$${props.ethPrice}`,
@@ -155,7 +145,7 @@ export default function Home(props: Props) {
     {
       name: "Porfolio in USD",
       stat: `$${_.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)}`,
-    }
+    },
   ];
 
   return (
@@ -307,10 +297,8 @@ const fetchAssets = async (owner: string) => {
   const assets = [];
   while (offset <= max) {
     const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
-    console.log("url: ", url);
     const { data } = await axios.get(url);
     offset += 1;
-    console.log("data: ", data.assets.length);
     if (data.assets.length > 0) {
       assets.push(data.assets);
     }

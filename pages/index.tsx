@@ -56,7 +56,6 @@ export default function Home(props: {}) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!walletAddress) return;
-    console.log("walletADdress: ", walletAddress);
     router.push(`/wallet/${walletAddress}`);
   };
 
