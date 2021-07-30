@@ -59,6 +59,7 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   if (!count) return 0;
 
   const floorPrice = collection.stats?.floor_price || 0;
+  // TODO get highest offer price?
   const total = count * floorPrice;
   return _.ceil(total * 100, 4) / 100;
 };
