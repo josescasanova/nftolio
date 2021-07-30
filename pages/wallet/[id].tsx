@@ -4,6 +4,12 @@ import _ from "lodash";
 import { GetServerSideProps } from "next";
 
 interface Collection {
+  asset_contract?: {
+    address: string;
+  };
+  primary_asset_contracts: {
+    address: string;
+  }[];
   stats?: {
     floor_price: number;
   };
@@ -16,11 +22,48 @@ interface Collection {
   name: string;
 }
 
-interface Props {
-  collections: Collection[];
+interface Asset {
+  asset_contract?: {
+    address: string;
+  };
 }
 
+type AssetCount = {
+  [key: string]: number;
+};
+
+interface Props {
+  collections: Collection[];
+  assets: Asset[];
+  assetCount: AssetCount;
+}
+
+const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
+  console.log("collection: ", collection);
+  const primaryAddress =
+    collection.primary_asset_contracts &&
+    collection.primary_asset_contracts.length
+      ? collection.primary_asset_contracts[0]
+      : null;
+  const contract =
+    collection.asset_contract?.address || primaryAddress?.address;
+  console.log("contract: ", contract);
+  if (!contract) return null;
+
+  console.log("getCountOwned: ", assetCount[contract]);
+  return assetCount[contract];
+};
+
+const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
+  const count = getCountOwned(collection, assetCount);
+  if (!count) return 0;
+
+  const floorPrice = collection.stats?.floor_price || 0;
+  return count * floorPrice;
+};
+
 export default function Home(props: Props) {
+  console.log("props: ", props);
   if (!props.collections.length) {
     return (
       <div className="text-sm font-medium text-gray-900">
@@ -28,6 +71,12 @@ export default function Home(props: Props) {
       </div>
     );
   }
+
+  // const stats = [
+  //   // {name: 'ETH Price', stat: ''},
+  //   {name: 'Porfolio in ETH', stat: ''},
+  //   // {name: 'Porfolio in USD', stat: ''},
+  // ];
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -37,6 +86,17 @@ export default function Home(props: Props) {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
+        {/* <div className="flex flex-col">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">Stats</h3>
+          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+            {stats.map((item) => (
+              <div key={item.name} className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+                <dt className="text-sm font-medium text-gray-500 truncate">{item.name}</dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">{item.stat}</dd>
+              </div>
+            ))}
+          </dl>
+        </div> */}
         <div className="flex flex-col">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -54,7 +114,19 @@ export default function Home(props: Props) {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
+                        Owned
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
                         ETH Floor
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        ETH Total
                       </th>
                       <th scope="col" className="relative px-6 py-3">
                         <span className="sr-only">Link</span>
@@ -83,7 +155,13 @@ export default function Home(props: Props) {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {getCountOwned(asset, props.assetCount)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {asset.stats?.floor_price}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {getTotalInEth(asset, props.assetCount)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           {asset.external_url ? (
@@ -108,24 +186,23 @@ export default function Home(props: Props) {
   );
 }
 
-const fetch = async (options) => {
-  const { owner, limit, offset } = options;
-  const url = `https://api.opensea.io/api/v1/collections?asset_owner=${owner}&offset=${offset}&limit=${limit}`;
-  const { data } = await axios.get(url);
-  return data;
-};
-
 const fetchCollections = async (owner: string) => {
   const limit = 300;
   // TODO fetch all assets/iterate till response is empty array
   let offset = 0;
+  const url = `https://api.opensea.io/api/v1/collections?asset_owner=${owner}&offset=${offset}&limit=${limit}`;
+  const { data } = await axios.get(url);
 
-  const data = await fetch({
-    owner,
-    limit,
-    offset,
-  });
+  return data;
+};
 
+const fetchAssets = async (owner: string) => {
+  const limit = 50;
+  const order = "desc";
+  // TODO fetch all assets/iterate till response is empty array
+  let offset = 0;
+  const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
+  const { data } = await axios.get(url);
   return data;
 };
 
@@ -133,9 +210,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
   const collections = await fetchCollections(owner);
+  const { assets } = await fetchAssets(owner);
+  const assetCount = {};
+  console.log("assets: ", assets);
+  (assets || []).forEach((asset: Asset) => {
+    const address = asset.asset_contract?.address;
+    if (address) {
+      if (assetCount.hasOwnProperty(address)) {
+        assetCount[address] += 1;
+      } else {
+        assetCount[address] = 1;
+      }
+    }
+  });
+
   return {
     props: {
       collections: collections || [],
+      assetCount,
+      assets,
     },
   };
 };
