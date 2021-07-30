@@ -21,7 +21,6 @@ interface Props {
 }
 
 export default function Home(props: Props) {
-  console.log("props: ", props);
   if (!props.collections.length) {
     return (
       <div className="text-sm font-medium text-gray-900">
@@ -113,13 +112,10 @@ const fetch = async (options) => {
   const { owner, limit, offset } = options;
   const url = `https://api.opensea.io/api/v1/collections?asset_owner=${owner}&offset=${offset}&limit=${limit}`;
   const { data } = await axios.get(url);
-  console.log("data: ", data);
-  console.log(" ");
   return data;
 };
 
 const fetchCollections = async (owner: string) => {
-  // const owner = "0x72e464537c954e5451e96b725fdf22105dcf4ff4";
   const limit = 300;
   // TODO fetch all assets/iterate till response is empty array
   let offset = 0;
