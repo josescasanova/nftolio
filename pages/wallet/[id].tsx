@@ -58,7 +58,8 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   if (!count) return 0;
 
   const floorPrice = collection.stats?.floor_price || 0;
-  return _.round(count * floorPrice);
+  // return _.round(count * floorPrice);
+  return count * floorPrice;
 };
 
 // TODO update this to get the highest bids
