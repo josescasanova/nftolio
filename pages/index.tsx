@@ -4,10 +4,27 @@ import axios from "axios";
 import _ from "lodash";
 import { GetServerSideProps } from "next";
 
-interface Props {}
+interface Collection {
+  stats?: {
+    floor_price: number;
+  };
+  banner_image_url: string;
+  description: string;
+  discord_url: string;
+  external_url: string;
+  featured_image_url: string;
+  image_url: string;
+  name: string;
+
+}
+
+interface Props {
+  collections: Collection[];
+}
 
 export default function Home(props: Props) {
   console.log(props);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -16,7 +33,9 @@ export default function Home(props: Props) {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">Assets</h1>
+        <div className="container mx-auto m-4">
+          <h1 className="text-6xl font-bold">Fisherman</h1>
+        </div>
 
         {/* <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
           {props.assets.map(asset => <img src={asset.image_url || 'TODO'} alt="TODO" />)}
@@ -32,76 +51,50 @@ export default function Home(props: Props) {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Name
+                        Collection
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                       >
-                        Title
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Status
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Role
+                        ETH Floor
                       </th>
                       <th scope="col" className="relative px-6 py-3">
-                        <span className="sr-only">Edit</span>
+                        <span className="sr-only">Link</span>
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {props.assets.map((asset) => (
-                      <tr key={asset.id}>
+                    {props.collections.map((asset: Collection) => (
+                      <tr key={asset.name}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10">
                               <img
                                 className="h-10 w-10 rounded-full"
                                 src={asset.image_url}
-                                alt=""
+                                alt={asset.name}
                               />
                             </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">
-                                {"name"}
-                              </div>
-                              <div className="text-sm text-gray-500">
-                                {"email"}
+                                {asset.name}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {"person.title"}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {"person.department"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                            Active
-                          </span>
-                        </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {"person.role"}
+                          {asset.stats?.floor_price}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          <a
-                            href="#"
+                          {asset.external_url ? (
+                            <a
+                            href={asset.external_url}
                             className="text-indigo-600 hover:text-indigo-900"
                           >
-                            Edit
+                            Link
                           </a>
+                          ) : null}
                         </td>
                       </tr>
                     ))}
@@ -117,29 +110,24 @@ export default function Home(props: Props) {
 }
 
 const fetch = async (options) => {
-  const { owner, limit, order, offset } = options;
-  const url = `https://api.opensea.io/api/v1/assets?order_direction=${order}&offset=${
-    offset || 0
-  }&=limit=${limit}&owner=${owner}`;
+  const { owner, limit, offset } = options;
+  const url = `https://api.opensea.io/api/v1/collections?asset_owner=${owner}&offset=${offset}&limit=${limit}`;
 
   const { data } = await axios.get(url);
-  console.log("offset: ", offset);
   console.log("data: ", data);
   console.log(" ");
   return data;
 };
 
-const fetchAll = async () => {
+const fetchCollections = async () => {
   const owner = "0x72e464537c954e5451e96b725fdf22105dcf4ff4";
-  const limit = 50;
-  const order = "desc";
+  const limit = 300;
   // TODO fetch all assets/iterate till response is empty array
   let offset = 0;
 
   const data = await fetch({
     owner,
     limit,
-    order,
     offset,
   });
 
@@ -147,12 +135,10 @@ const fetchAll = async () => {
 };
 
 export const getStaticProps: GetServerSideProps = async (context) => {
-  const assets = await fetchAll();
-  const addresses = _.map(assets, (asset) => asset.asset_contract.address);
+  const collections = await fetchCollections();
   return {
     props: {
-      assets,
-      addresses,
+      collections
     },
   };
 };
