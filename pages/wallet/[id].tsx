@@ -215,7 +215,7 @@ export default function Home(props: Props) {
                           {getCountOwned(collection, props.assetCount)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {getFloorInEth({collection)}
+                          {getFloorInEth(collection)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {getTotalInEth(collection, props.assetCount)}
