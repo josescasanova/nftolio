@@ -58,7 +58,7 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   if (!count) return 0;
 
   const floorPrice = collection.stats?.floor_price || 0;
-  return count * floorPrice;
+  return _.round(count * floorPrice);
 };
 
 // TODO update this to get the highest bids
@@ -131,6 +131,8 @@ export default function Home(props: Props) {
     },
     // {name: 'Porfolio in USD', stat: ''},
   ];
+
+  const collections = _.reverse(_.sortBy(props.collections, (collection) => getTotalInEth(collection, props.assetCount)));
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -213,7 +215,7 @@ export default function Home(props: Props) {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {props.collections.map((collection: Collection) => (
+                    {collections.map((collection: Collection) => (
                       <tr key={collection.name}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
