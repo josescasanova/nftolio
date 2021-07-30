@@ -307,7 +307,6 @@ const fetchAssets = async (owner: string) => {
   const assets = [];
   while (offset <= max) {
     const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
-    console.log("process.env.OPENSEA_API_KEY: ", process.env.OPENSEA_API_KEY);
     const { data } = await axios.get(url, {
       headers: {
         "X-API-KEY": process.env.OPENSEA_API_KEY,
@@ -327,7 +326,6 @@ const fetchEthPrice = async () => {
     "https://api.coingecko.com/api/v3/coins/ethereum"
   );
   const price = data?.market_data?.current_price.usd;
-  console.log("price: ", price);
   return _.toNumber(price);
 };
 
