@@ -117,8 +117,10 @@ export default function Home(props: Props) {
   // console.log("props: ", props);
   if (!props.collections.length) {
     return (
-      <div className="text-sm font-medium text-gray-900">
-        No collections found. Try clearing cache or refreshing. prob a rate limit error ¯\_(ツ)_/¯
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <div className="text-sm font-medium text-gray-900">
+          No collections found. Try clearing cache or refreshing. prob a rate limit error ¯\_(ツ)_/¯
+        </div>
       </div>
     );
   }
