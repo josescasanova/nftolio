@@ -58,8 +58,8 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   if (!count) return 0;
 
   const floorPrice = collection.stats?.floor_price || 0;
-  // return _.round(count * floorPrice);
-  return count * floorPrice;
+  const total = count * floorPrice;
+  return _.ceil(total * 100, 4) / 100;
 };
 
 // TODO update this to get the highest bids
@@ -117,6 +117,12 @@ export default function Home(props: Props) {
     );
   }
 
+  const collections = _.reverse(
+    _.sortBy(props.collections, (collection) =>
+      getTotalInEth(collection, props.assetCount)
+    )
+  );
+
   const stats = [
     // {
     //   name: "Total Collections Checked",
@@ -124,16 +130,15 @@ export default function Home(props: Props) {
     // },
     {
       name: "Porfolio in ETH",
-      stat: _.sum(
-        props.collections.map((collection: Collection) =>
-          getTotalInEth(collection, props.assetCount)
-        )
+      stat: _.ceil(
+        _.sum(
+          collections.map((c: Collection) => getTotalInEth(c, props.assetCount))
+        ),
+        5
       ),
     },
     // {name: 'Porfolio in USD', stat: ''},
   ];
-
-  const collections = _.reverse(_.sortBy(props.collections, (collection) => getTotalInEth(collection, props.assetCount)));
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
