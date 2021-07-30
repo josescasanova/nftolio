@@ -20,6 +20,7 @@ interface Collection {
   featured_image_url: string;
   image_url?: string;
   name: string;
+  owned_asset_count?: number;
 }
 
 interface Asset {
@@ -39,6 +40,8 @@ interface Props {
 }
 
 const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
+  if (collection.owned_asset_count) return collection.owned_asset_count;
+
   const primaryAddress =
     collection.primary_asset_contracts &&
     collection.primary_asset_contracts.length
