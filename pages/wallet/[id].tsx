@@ -74,7 +74,14 @@ export default function Home(props: Props) {
 
   const stats = [
     // {name: 'ETH Price', stat: ''},
-    {name: 'Porfolio in ETH', stat: _.sum(props.collections.map((asset: Collection) => getTotalInEth(asset, props.assetCount)))},
+    {
+      name: "Porfolio in ETH",
+      stat: _.sum(
+        props.collections.map((asset: Collection) =>
+          getTotalInEth(asset, props.assetCount)
+        )
+      ),
+    },
     // {name: 'Porfolio in USD', stat: ''},
   ];
 
@@ -87,12 +94,23 @@ export default function Home(props: Props) {
 
       <main className="flex flex-col w-full flex-1 px-20 text-center">
         <div className="flex flex-col mt-8">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">NFT Portfolio</h3>
-          <dl className={`mt-5 grid grid-cols-1 gap-5 sm:grid-cols-${stats.length}`}>
+          <h3 className="text-lg leading-6 font-medium text-gray-900">
+            NFT Portfolio
+          </h3>
+          <dl
+            className={`mt-5 grid grid-cols-1 gap-5 sm:grid-cols-${stats.length}`}
+          >
             {stats.map((item) => (
-              <div key={item.name} className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt className="text-sm font-medium text-gray-500 truncate">{item.name}</dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">{item.stat}</dd>
+              <div
+                key={item.name}
+                className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
+              >
+                <dt className="text-sm font-medium text-gray-500 truncate">
+                  {item.name}
+                </dt>
+                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                  {item.stat}
+                </dd>
               </div>
             ))}
           </dl>
