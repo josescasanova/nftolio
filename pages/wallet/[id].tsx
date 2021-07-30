@@ -72,11 +72,11 @@ export default function Home(props: Props) {
     );
   }
 
-  // const stats = [
-  //   // {name: 'ETH Price', stat: ''},
-  //   {name: 'Porfolio in ETH', stat: ''},
-  //   // {name: 'Porfolio in USD', stat: ''},
-  // ];
+  const stats = [
+    // {name: 'ETH Price', stat: ''},
+    {name: 'Porfolio in ETH', stat: _.sum(props.collections.map((asset: Collection) => getTotalInEth(asset, props.assetCount)))},
+    // {name: 'Porfolio in USD', stat: ''},
+  ];
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -85,10 +85,10 @@ export default function Home(props: Props) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        {/* <div className="flex flex-col">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Stats</h3>
-          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <main className="flex flex-col w-full flex-1 px-20 text-center">
+        <div className="flex flex-col mt-8">
+          <h3 className="text-lg leading-6 font-medium text-gray-900">NFT Portfolio</h3>
+          <dl className={`mt-5 grid grid-cols-1 gap-5 sm:grid-cols-${stats.length}`}>
             {stats.map((item) => (
               <div key={item.name} className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt className="text-sm font-medium text-gray-500 truncate">{item.name}</dt>
@@ -96,8 +96,8 @@ export default function Home(props: Props) {
               </div>
             ))}
           </dl>
-        </div> */}
-        <div className="flex flex-col">
+        </div>
+        <div className="flex flex-col mt-8">
           <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
               <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -147,7 +147,7 @@ export default function Home(props: Props) {
                                 />
                               ) : null}
                             </div>
-                            <div className="ml-4">
+                            <div className="ml-4 items-center justify-center">
                               <div className="text-sm font-medium text-gray-900">
                                 {asset.name}
                               </div>
