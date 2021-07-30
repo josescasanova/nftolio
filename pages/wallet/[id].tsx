@@ -127,15 +127,17 @@ export default function Home(props: Props) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
-        <title>Fisherman</title>
+        <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className="flex flex-col w-full flex-1 px-20 text-center">
         <div className="flex flex-col mt-8">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">
-            NFT Portfolio
-          </h3>
+          <a href="/">
+            <h3 className="text-lg leading-6 font-medium text-gray-900">
+              NFT Portfolio
+            </h3>
+          </a>
           <dl
             className={`mt-5 grid grid-cols-1 gap-5 sm:grid-cols-${stats.length}`}
           >
