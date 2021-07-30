@@ -76,8 +76,8 @@ export default function Home(props: Props) {
     {
       name: "Porfolio in ETH",
       stat: _.sum(
-        props.collections.map((asset: Collection) =>
-          getTotalInEth(asset, props.assetCount)
+        props.collections.map((collection: Collection) =>
+          getTotalInEth(collection, props.assetCount)
         )
       ),
     },
@@ -151,39 +151,39 @@ export default function Home(props: Props) {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {props.collections.map((asset: Collection) => (
-                      <tr key={asset.name}>
+                    {props.collections.map((collection: Collection) => (
+                      <tr key={collection.name}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="flex-shrink-0 h-10 w-10">
-                              {asset.image_url ? (
+                              {collection.image_url ? (
                                 <img
                                   className="h-10 w-10 rounded-full"
-                                  src={asset.image_url}
-                                  alt={asset.name}
+                                  src={collection.image_url}
+                                  alt={collection.name}
                                 />
                               ) : null}
                             </div>
                             <div className="ml-4 items-center justify-center">
                               <div className="text-sm font-medium text-gray-900">
-                                {asset.name}
+                                {collection.name}
                               </div>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {getCountOwned(asset, props.assetCount)}
+                          {getCountOwned(collection, props.assetCount)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {asset.stats?.floor_price}
+                          {collection.stats?.floor_price}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {getTotalInEth(asset, props.assetCount)}
+                          {getTotalInEth(collection, props.assetCount)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          {asset.external_url ? (
+                          {collection.external_url ? (
                             <a
-                              href={asset.external_url}
+                              href={collection.external_url}
                               className="text-indigo-600 hover:text-indigo-900"
                             >
                               Link
