@@ -280,16 +280,26 @@ export default function Home(props: Props) {
 }
 
 const fetchCollections = async (owner: string) => {
+  if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+  }
   const limit = 300;
   // TODO fetch all assets/iterate till response is empty array
   let offset = 0;
   const url = `https://api.opensea.io/api/v1/collections?asset_owner=${owner}&offset=${offset}&limit=${limit}`;
-  const { data } = await axios.get(url);
+  const { data } = await axios.get(url, {
+    headers: {
+      "X-API-KEY": process.env.OPENSEA_API_KEY,
+    },
+  });
 
   return data;
 };
 
 const fetchAssets = async (owner: string) => {
+  if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+  }
   const max = 5;
   const limit = 50;
   const order = "desc";
@@ -297,7 +307,11 @@ const fetchAssets = async (owner: string) => {
   const assets = [];
   while (offset <= max) {
     const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
-    const { data } = await axios.get(url);
+    const { data } = await axios.get(url, {
+      headers: {
+        "X-API-KEY": process.env.OPENSEA_API_KEY,
+      },
+    });
     offset += 1;
     if (data.assets.length > 0) {
       assets.push(data.assets);
