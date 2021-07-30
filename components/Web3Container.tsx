@@ -19,7 +19,7 @@ const resolveWeb3 = (resolve) => {
   resolve(web3);
 };
 
-const getWeb3 = () => {
+const getWeb3 = (): any => {
   return new Promise((resolve) => {
     // Wait for loading completion to avoid race conditions with web3 injection timing.
     window.addEventListener(`load`, () => {
@@ -32,19 +32,22 @@ const getWeb3 = () => {
   });
 };
 
-const Web3Container = (props) => {
-  const [state, setState] = useState({});
+const Web3Container = async (props) => {
+  const [state, setState] = useState<{ web3?: any; accounts?: any }>({});
 
   useEffect(() => {
-    try {
-      const web3 = await getWeb3();
-      const accounts = await web3.eth.getAccounts();
-      setState({ web3, accounts });
-    } catch (error) {
-      alert(`Failed to load web3, or accounts. Check console for details.`);
-      console.log(error);
-    }
-  });
+    const fetchWallet = async () => {
+      try {
+        const web3 = await getWeb3();
+        const accounts = await web3.eth.getAccounts();
+        setState({ web3, accounts });
+      } catch (error) {
+        alert(`Failed to load web3, or accounts. Check console for details.`);
+        console.log(error);
+      }
+    };
+    fetchWallet();
+  }, []);
 
   const { web3, accounts } = state;
   return web3 && accounts

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Web3Container from "../components/Web3Container";
 
-export default function Home() {
+function Home(props: {}) {
+  console.log(props);
   const router = useRouter();
   const [walletAddress, setWalletAddress] = useState("");
   const onSubmit = (e) => {
@@ -123,3 +124,11 @@ export default function Home() {
     </div>
   );
 }
+
+export default (props) => (
+  // @ts-ignore
+  <Web3Container
+    renderLoading={() => <div>Loading Accounts Page...</div>}
+    render={({ accounts }) => <Home accounts={accounts} {...props} />}
+  />
+);
