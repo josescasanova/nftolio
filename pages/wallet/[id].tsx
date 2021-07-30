@@ -39,7 +39,6 @@ interface Props {
 }
 
 const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
-  console.log("collection: ", collection);
   const primaryAddress =
     collection.primary_asset_contracts &&
     collection.primary_asset_contracts.length
@@ -47,10 +46,7 @@ const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
       : null;
   const contract =
     collection.asset_contract?.address || primaryAddress?.address;
-  console.log("contract: ", contract);
   if (!contract) return null;
-
-  console.log("getCountOwned: ", assetCount[contract]);
   return assetCount[contract];
 };
 
@@ -227,10 +223,11 @@ const fetchAssets = async (owner: string) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
+
   const collections = await fetchCollections(owner);
   const { assets } = await fetchAssets(owner);
+
   const assetCount = {};
-  console.log("assets: ", assets);
   (assets || []).forEach((asset: Asset) => {
     const address = asset.asset_contract?.address;
     if (address) {
