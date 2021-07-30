@@ -325,5 +325,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   } catch (err) {
     console.log(err);
+    return {
+      props: {
+        collections: [],
+        assetCount: {},
+        assets: [],
+      },
+    };
   }
 };
