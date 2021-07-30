@@ -1,11 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Web3Container from "../components/Web3Container";
+import Web3 from "web3";
 
-function Home(props: {}) {
-  console.log(props);
+const getWeb3 = async (isFirstLoad: boolean) => {
+  try {
+    let web3: Web3;
+    // @ts-ignore
+    if (window.ethereum) {
+      // @ts-ignore
+      web3 = new Web3(window.ethereum);
+      // Ask User permission to connect to Metamask
+      if (!isFirstLoad) {
+        try {
+          // @ts-ignore
+          await window.ethereum.enable();
+        } catch (err) {
+          console.log("Transaction rejected by user:", err);
+        }
+      }
+      // @ts-ignore
+    } else if (window.web3) {
+      // @ts-ignore
+      web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert(
+        "Non-Ethereum browser detected. Please install MetaMask plugin"
+      );
+      return;
+    }
+    return web3;
+  } catch (err) {
+    console.log("Error in Web3.tsx -> getWeb3(): ", err);
+  }
+};
+
+export default function Home(props: {}) {
   const router = useRouter();
   const [walletAddress, setWalletAddress] = useState("");
+
+  useEffect(() => {
+    const initWeb3 = async () => {
+      const web3 = await getWeb3(false);
+      const accounts = await web3.eth.getAccounts();
+      console.log("accounts: ", accounts);
+      if (accounts && accounts.length) {
+        const account = accounts[0];
+        setWalletAddress(account);
+      }
+      return accounts;
+    };
+    initWeb3();
+  }, []);
+
   const onSubmit = (e) => {
     e.preventDefault();
     if (!walletAddress) return;
@@ -124,11 +170,3 @@ function Home(props: {}) {
     </div>
   );
 }
-
-export default (props) => (
-  // @ts-ignore
-  <Web3Container
-    renderLoading={() => <div>Loading Accounts Page...</div>}
-    render={({ accounts }) => <Home accounts={accounts} {...props} />}
-  />
-);
