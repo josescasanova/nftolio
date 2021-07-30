@@ -97,9 +97,9 @@ const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 //   getAccount();
 // });
 
-async function getAccount() {
-  accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-}
+// async function getAccount() {
+//   accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+// }
 
 export default function Home(props: Props) {
   console.log("props: ", props);
