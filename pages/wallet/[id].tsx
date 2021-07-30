@@ -64,10 +64,10 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
 // TODO update this to get the highest bids
 const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 
-const getTotalNftCount = (assetCount: AssetCount) => {
-  const keys = _.keys(assetCount);
-  return _.sum(_.map(keys, (key) => assetCount[key] || 0));
-};
+// const getTotalNftCount = (assetCount: AssetCount) => {
+//   const keys = _.keys(assetCount);
+//   return _.sum(_.map(keys, (key) => assetCount[key] || 0));
+// };
 
 // TODO add "register function" --- CONTRACT https://etherscan.io/address/0xdfa76df49ce8b01562f3de48126b8b6377c4e0a6#code @ 0.01 eth
 // TODO hide "portfolio in eth" w tooltip or something to say register to reveal
@@ -107,7 +107,7 @@ const getTotalNftCount = (assetCount: AssetCount) => {
 // }
 
 export default function Home(props: Props) {
-  console.log("props: ", props);
+  // console.log("props: ", props);
   if (!props.collections.length) {
     return (
       <div className="text-sm font-medium text-gray-900">
@@ -117,10 +117,10 @@ export default function Home(props: Props) {
   }
 
   const stats = [
-    {
-      name: "Total Collections Checked",
-      stat: getTotalNftCount(props.assetCount),
-    },
+    // {
+    //   name: "Total Collections Checked",
+    //   stat: getTotalNftCount(props.assetCount),
+    // },
     {
       name: "Porfolio in ETH",
       stat: _.sum(
@@ -276,18 +276,20 @@ const fetchCollections = async (owner: string) => {
 };
 
 const fetchAssets = async (owner: string) => {
-  const max = 20;
+  const max = 10;
   const limit = 50;
   const order = "desc";
   let offset = 0;
   const assets = [];
   while (offset <= max) {
     const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
+    console.log("url: ", url);
     const { data } = await axios.get(url);
     offset += 1;
-    console.log("data: ", data);
-    assets.push(data.assets);
-    console.log("assets: ", assets);
+    console.log("data: ", data.assets.length);
+    if (data.assets.length > 0) {
+      assets.push(data.assets);
+    }
   }
 
   return _.flatten(assets);
@@ -299,7 +301,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const collections = await fetchCollections(owner);
   const assets = await fetchAssets(owner);
-  console.log("fetchAssets: ", assets);
+  // console.log("fetchAssets: ", assets);
 
   const assetCount = {};
   (assets || []).forEach((asset: Asset) => {
