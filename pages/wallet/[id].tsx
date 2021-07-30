@@ -37,6 +37,7 @@ interface Props {
   collections: Collection[];
   assets: Asset[];
   assetCount: AssetCount;
+  ethPrice: number;
 }
 
 const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
@@ -123,21 +124,30 @@ export default function Home(props: Props) {
     )
   );
 
+  const portfolioInEth = _.ceil(
+    _.sum(
+      collections.map((c: Collection) => getTotalInEth(c, props.assetCount))
+    ),
+    5
+  );
+
   const stats = [
+    {
+      name: "Porfolio in ETH",
+      stat: portfolioInEth,
+    },
     // {
     //   name: "Total Collections Checked",
     //   stat: getTotalNftCount(props.assetCount),
     // },
     {
-      name: "Porfolio in ETH",
-      stat: _.ceil(
-        _.sum(
-          collections.map((c: Collection) => getTotalInEth(c, props.assetCount))
-        ),
-        5
-      ),
+      name: "ETH Price",
+      stat: `$${props.ethPrice}`,
     },
-    // {name: 'Porfolio in USD', stat: ''},
+    {
+      name: "Porfolio in USD",
+      stat: `$${_.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)}`,
+    },
   ];
 
   return (
@@ -303,6 +313,15 @@ const fetchAssets = async (owner: string) => {
   return _.flatten(assets);
 };
 
+const fetchEthPrice = async () => {
+  const { data } = await axios.get(
+    "https://api.coingecko.com/api/v3/coins/ethereum"
+  );
+  const price = data?.market_data?.current_price.usd;
+  console.log("price: ", price);
+  return _.toNumber(price);
+};
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
@@ -310,7 +329,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const collections = await fetchCollections(owner);
     const assets = await fetchAssets(owner);
-    // console.log("fetchAssets: ", assets);
+    const ethPrice = await fetchEthPrice();
 
     const assetCount = {};
     (assets || []).forEach((asset: Asset) => {
@@ -329,6 +348,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         collections: collections || [],
         assetCount: assetCount || {},
         assets: assets || [],
+        ethPrice,
       },
     };
   } catch (err) {
@@ -338,6 +358,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         collections: [],
         assetCount: {},
         assets: [],
+        ethPrice: 0,
       },
     };
   }
