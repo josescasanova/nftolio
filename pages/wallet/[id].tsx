@@ -2,6 +2,7 @@ import Head from "next/head";
 import axios from "axios";
 import _ from "lodash";
 import { GetServerSideProps } from "next";
+import currency from "currency.js";
 
 interface Collection {
   asset_contract?: {
@@ -133,6 +134,10 @@ export default function Home(props: Props) {
     5
   );
 
+  const portfolioInUsd = currency(
+    _.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)
+  ).format();
+
   const stats = [
     {
       name: "Porfolio in ETH",
@@ -144,7 +149,7 @@ export default function Home(props: Props) {
     },
     {
       name: "Porfolio in USD",
-      stat: `$${_.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)}`,
+      stat: portfolioInUsd,
     },
   ];
 

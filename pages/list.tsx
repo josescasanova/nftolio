@@ -135,7 +135,11 @@ export default function List() {
                           {wallet.address}
                         </td>
                         <td className="px-6 py-3 whitespace-nowrap text-sm font-medium text-blue-500 hover:text-blue-900 cursor-pointer">
-                          <a key={wallet.address} target="_blank" href={`/wallet/${wallet.address}`}>
+                          <a
+                            key={wallet.address}
+                            target="_blank"
+                            href={`/wallet/${wallet.address}`}
+                          >
                             Link
                           </a>
                         </td>
