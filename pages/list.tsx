@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import Head from "next/head";
 
-export default function List(props: {}) {
+export default function List() {
   const [wallets, setWallets] = useState([]);
   const [newWallet, setNewWallet] = useState({
     name: "",
@@ -25,6 +25,7 @@ export default function List(props: {}) {
       "nft-wallets",
       JSON.stringify([...wallets, newWallet])
     );
+    setNewWallet({ name: "", address: "" });
   };
 
   const onAddressChange = (e) => {
