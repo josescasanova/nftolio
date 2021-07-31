@@ -109,6 +109,8 @@ const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 //   accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 // }
 
+// TODO track punks
+
 export default function Home(props: Props) {
   if (!props.collections.length) {
     return (
