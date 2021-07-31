@@ -41,8 +41,6 @@ export default function List(props: {}) {
     localStorage.setItem("nft-wallets", JSON.stringify(newWallets));
   };
 
-  console.log("wallets:: ", wallets);
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
