@@ -68,18 +68,6 @@ export default function Home(props: {}) {
       <Head>
         <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_API_KEY}', {
-              page_path: window.location.pathname,
-            });
-          `,
-          }}
-        />
       </Head>
       <div className="bg-white py-16 sm:py-24">
         <div className="relative sm:py-16">

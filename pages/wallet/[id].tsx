@@ -153,18 +153,6 @@ export default function Home(props: Props) {
       <Head>
         <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_API_KEY}', {
-              page_path: window.location.pathname,
-            });
-          `,
-          }}
-        />
       </Head>
 
       <main className="flex flex-col w-full flex-1 px-20 text-center">
