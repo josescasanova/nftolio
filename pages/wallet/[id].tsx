@@ -145,7 +145,7 @@ export default function Home(props: Props) {
     },
     {
       name: "ETH Price",
-      stat: `$${props.ethPrice}`,
+      stat: currency(props.ethPrice).format(),
     },
     {
       name: "Porfolio in USD",
