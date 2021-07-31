@@ -157,6 +157,18 @@ export default function List() {
           </div>
         </div>
       </main>
+      <footer>
+        <a href="/" className="text-indigo-600 hover:text-indigo-900">
+          Home
+        </a>
+        <br />
+        <a
+          href="https://github.com/0x-icy/nftolio"
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Github
+        </a>
+      </footer>
     </div>
   );
 }

@@ -173,6 +173,14 @@ export default function Home(props: {}) {
           </div>
         </div>
       </div>
+      <footer>
+        <a
+          href="https://github.com/0x-icy/nftolio"
+          className="text-indigo-600 hover:text-indigo-900"
+        >
+          Github
+        </a>
+      </footer>
     </>
   );
 }
