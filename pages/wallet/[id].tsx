@@ -6,7 +6,7 @@ import { GetServerSideProps } from "next";
 import currency from "currency.js";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import { supabase } from "../../db";
+import { supabase } from "../../db/supabase";
 
 interface Collection {
   asset_contract?: {
