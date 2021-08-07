@@ -140,7 +140,7 @@ export default function Home(props: Props) {
       </Head>
       <Header />
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
-        <main className="flex flex-col w-full flex-1 px-20">
+        <main className="flex flex-col w-full flex-1 sm:px-2 px-2 lg:px-20">
           <div className="flex flex-col mt-8">
             <a href="/">
               <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal py-2">

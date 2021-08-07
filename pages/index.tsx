@@ -70,7 +70,7 @@ export default function Home(props: {}) {
         <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header isHome />
       <div className="bg-white py-16 sm:py-24">
         <div className="relative sm:py-16">
           <div aria-hidden="true" className="hidden sm:block">
