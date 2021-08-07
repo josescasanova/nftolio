@@ -4,6 +4,7 @@ import _ from "lodash";
 import { GetServerSideProps } from "next";
 import currency from "currency.js";
 import Footer from "../../components/Footer";
+import Header from "../../components/Header";
 
 interface Collection {
   asset_contract?: {
@@ -116,20 +117,22 @@ export default function Home(props: Props) {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <>
       <Head>
         <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex flex-col w-full flex-1 px-20 text-center">
+      <Header />
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <main className="flex flex-col w-full flex-1 px-20">
         <div className="flex flex-col mt-8">
           <a href="/">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              NFT Portfolio for{" "}
-              <a href={`https://etherscan.io/address/${props.owner}`}>
+            <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal">
+              NFT Portfolio
+               {/* for{" "} */}
+              {/* <a href={`https://etherscan.io/address/${props.owner}`} className="text-indigo-900 break-normal">
                 {props.owner}
-              </a>
+              </a> */}
             </h3>
           </a>
           <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
@@ -235,6 +238,7 @@ export default function Home(props: Props) {
       </main>
       <Footer />
     </div>
+    </>
   );
 }
 

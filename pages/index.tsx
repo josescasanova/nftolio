@@ -3,7 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 // import Web3 from "web3";
 import Footer from "../components/Footer";
-
+import Header from "../components/Header";
 // const getWeb3 = async (isFirstLoad: boolean) => {
 //   try {
 //     let web3: Web3;
@@ -70,6 +70,7 @@ export default function Home(props: {}) {
         <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Header />
       <div className="bg-white py-16 sm:py-24">
         <div className="relative sm:py-16">
           <div aria-hidden="true" className="hidden sm:block">

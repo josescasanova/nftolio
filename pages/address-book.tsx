@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import Head from "next/head";
+import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export default function AddressBook() {
@@ -44,13 +45,14 @@ export default function AddressBook() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <>
       <Head>
         <title>nftolio.xyz</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <main className="flex flex-col w-full flex-1 px-20 text-center">
+      <Header />
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+      <main className="flex flex-col w-full flex-1 px-20">
         <div className="flex flex-col mt-8">
           <a href="/">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -160,5 +162,6 @@ export default function AddressBook() {
       </main>
       <Footer />
     </div>
+    </>
   );
 }
