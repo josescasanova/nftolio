@@ -51,38 +51,9 @@ interface Wallet {
   address: string;
 }
 
-const fetchOrCreateWallet = async (owner?: string): Promise<Wallet> => {
-  if (!owner) return null;
-  try {
-    console.log("fetch");
-    let { data: wallet, error } = await supabase
-      .from("wallet")
-      .select("*")
-      .eq("address", owner);
+// Helpers
 
-    console.log("error: ", error);
-    if (error) return;
-
-    console.log("wallet: ", wallet);
-    if (!wallet.length) {
-      console.log("inserting record");
-      let { data, error: insertError } = await supabase
-        .from("wallet")
-        .insert([{ address: owner }]);
-      console.log(insertError);
-      console.log(data);
-      return data[0];
-    }
-    return wallet[0];
-  } catch (err) {
-    console.log("fetchorcreatewallet err: ", err);
-    return null;
-  }
-};
-
-const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
-  if (collection.owned_asset_count) return collection.owned_asset_count;
-
+const getPrimaryAddressOrContract = (collection: Collection) => {
   const primaryAddress =
     collection.primary_asset_contracts &&
     collection.primary_asset_contracts.length
@@ -91,6 +62,12 @@ const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
   const contract =
     collection.asset_contract?.address || primaryAddress?.address;
   if (!contract) return null;
+  return contract;
+};
+const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
+  if (collection.owned_asset_count) return collection.owned_asset_count;
+
+  const contract = getPrimaryAddressOrContract(collection);
   return assetCount[contract];
 };
 
@@ -123,7 +100,6 @@ const getTotalInUsd = (
 const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 
 // TODO track punks
-
 const getData = (props: Props) => {
   const collections = _.reverse(
     _.sortBy(props.collections, (collection) =>
@@ -155,6 +131,7 @@ const getData = (props: Props) => {
   };
 };
 
+// API Requests
 const saveWalletLog = async (props: Props, wallet: Wallet) => {
   try {
     console.log("savewalletlog wallet: ", wallet);
@@ -167,10 +144,86 @@ const saveWalletLog = async (props: Props, wallet: Wallet) => {
         timestamp_log: new Date(),
       },
     ]);
-    console.log('walletlog data: ', data);
-    console.log('walletlog err: ', error);
+    console.log("walletlog data: ", data);
+    console.log("walletlog err: ", error);
   } catch (err) {
     console.log("err saveWalletLog: ", err);
+  }
+};
+
+const fetchOrCreateWallet = async (owner?: string): Promise<Wallet> => {
+  if (!owner) return null;
+  try {
+    console.log("fetch");
+    let { data: wallet, error } = await supabase
+      .from("wallet")
+      .select("*")
+      .eq("address", owner);
+
+    console.log("error: ", error);
+    if (error) return;
+
+    console.log("wallet: ", wallet);
+    if (!wallet.length) {
+      console.log("inserting record");
+      let { data, error: insertError } = await supabase
+        .from("wallet")
+        .insert([{ address: owner }]);
+      console.log(insertError);
+      console.log(data);
+      return data[0];
+    }
+    return wallet[0];
+  } catch (err) {
+    console.log("fetchorcreatewallet err: ", err);
+    return null;
+  }
+};
+
+const fetchOrCreateCollections = async (
+  collections: Collection[]
+): Promise<Wallet> => {
+  try {
+    await Promise.all([
+      collections.map(async (collection: Collection) => {
+        console.log("collection: ", collection);
+        const address = getPrimaryAddressOrContract(collection);
+
+        let { data, error } = await supabase
+          .from("collection")
+          .select("*")
+          .eq("address", address);
+
+        console.log("error: ", error);
+        if (error) return;
+
+        console.log("data: ", data);
+        if (!data.length) {
+          console.log("inserting record");
+          let { data: newDate, error: insertError } = await supabase
+            .from("collection")
+            .insert([
+              {
+                address,
+                banner_image_url: collection.banner_image_url,
+                name: collection.name,
+                description: collection.description,
+                discord_url: collection.discord_url,
+                external_url: collection.external_url,
+                featured_image_url: collection.featured_image_url,
+                image_url: collection.image_url,
+              },
+            ]);
+          console.log(insertError);
+          console.log(data);
+          return newDate[0];
+        }
+      }),
+    ]);
+    return null;
+  } catch (err) {
+    console.log("fetchorcreatewallet err: ", err);
+    return null;
   }
 };
 
@@ -391,6 +444,8 @@ const fetchCollections = async (owner: string) => {
       "X-API-KEY": process.env.OPENSEA_API_KEY,
     },
   });
+
+  await fetchOrCreateCollections(data);
 
   return data;
 };
