@@ -2,6 +2,7 @@ import Document, { Html, Head, Main, NextScript } from "next/document";
 
 export default class BaseDocument extends Document {
   render() {
+    const description = 'Find out how much your NFT portfolio is based on ETH floor prices and liquidity.';
     return (
       <Html>
         <Head>
@@ -29,7 +30,7 @@ export default class BaseDocument extends Document {
           />
           <meta
             name="description"
-            content="Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
+            content={description}
           />
 
           <meta property="og:type" content="website" />
@@ -40,7 +41,7 @@ export default class BaseDocument extends Document {
           />
           <meta
             property="og:description"
-            content="Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
+            content={description}
           />
           <meta
             property="og:image"
@@ -55,7 +56,7 @@ export default class BaseDocument extends Document {
           />
           <meta
             property="twitter:description"
-            content="Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
+            content={description}
           />
           <meta
             property="twitter:image"
