@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();

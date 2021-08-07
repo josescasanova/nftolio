@@ -6,7 +6,7 @@ import { GetServerSideProps } from "next";
 import currency from "currency.js";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import db from '../../db';
+import { supabase } from "../../db";
 
 interface Collection {
   asset_contract?: {
@@ -46,6 +46,25 @@ interface Props {
   owner: string;
 }
 
+const fetchOrCreateWallet = async (owner?: string) => {
+  if (!owner) return;
+  try {
+    let { data: wallet, error } = await supabase
+      .from("wallet")
+      .select("*")
+      .eq("address", owner);
+
+    console.log("error: ", error);
+
+    console.log("wallet: ", wallet);
+    if (!wallet) {
+      await supabase.from("wallet").insert([{ address: owner }]);
+    }
+  } catch (err) {
+    console.log("fetchorcreatewallet err: ", err);
+  }
+};
+
 const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
   if (collection.owned_asset_count) return collection.owned_asset_count;
 
@@ -60,7 +79,10 @@ const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
   return assetCount[contract];
 };
 
-const getTotalInEth = (collection: Collection, assetCount: AssetCount): number => {
+const getTotalInEth = (
+  collection: Collection,
+  assetCount: AssetCount
+): number => {
   const count = getCountOwned(collection, assetCount);
   if (!count) return 0;
 
@@ -73,9 +95,9 @@ const getTotalInUsd = (
   collection: Collection,
   assetCount: AssetCount,
   ethPrice: number
-) : string => {
+): string => {
   const count = getCountOwned(collection, assetCount);
-  if (!count) return '$0';
+  if (!count) return "$0";
 
   const floorPrice = collection.stats?.floor_price || 0;
   const total = count * floorPrice * ethPrice;
@@ -359,6 +381,8 @@ const fetchEthPrice = async () => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
+
+  await fetchOrCreateWallet(owner);
 
   try {
     const collections = await fetchCollections(owner);
