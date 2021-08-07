@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Web3 from "web3";
+// import Web3 from "web3";
 import Footer from "../components/Footer";
 
-const getWeb3 = async (isFirstLoad: boolean) => {
-  try {
-    let web3: Web3;
-    // @ts-ignore
-    if (window.ethereum) {
-      // @ts-ignore
-      web3 = new Web3(window.ethereum);
-      // Ask User permission to connect to Metamask
-      if (!isFirstLoad) {
-        try {
-          // @ts-ignore
-          await window.ethereum.enable();
-        } catch (err) {
-          console.log("Transaction rejected by user:", err);
-        }
-      }
-      // @ts-ignore
-    } else if (window.web3) {
-      // @ts-ignore
-      web3 = new Web3(window.web3.currentProvider);
-    } else {
-      window.alert(
-        "Non-Ethereum browser detected. Please install MetaMask plugin"
-      );
-      return;
-    }
-    return web3;
-  } catch (err) {
-    console.log("Error in Web3.tsx -> getWeb3(): ", err);
-  }
-};
+// const getWeb3 = async (isFirstLoad: boolean) => {
+//   try {
+//     let web3: Web3;
+//     // @ts-ignore
+//     if (window.ethereum) {
+//       // @ts-ignore
+//       web3 = new Web3(window.ethereum);
+//       // Ask User permission to connect to Metamask
+//       if (!isFirstLoad) {
+//         try {
+//           // @ts-ignore
+//           await window.ethereum.enable();
+//         } catch (err) {
+//           console.log("Transaction rejected by user:", err);
+//         }
+//       }
+//       // @ts-ignore
+//     } else if (window.web3) {
+//       // @ts-ignore
+//       web3 = new Web3(window.web3.currentProvider);
+//     } else {
+//       window.alert(
+//         "Non-Ethereum browser detected. Please install MetaMask plugin"
+//       );
+//       return;
+//     }
+//     return web3;
+//   } catch (err) {
+//     console.log("Error in Web3.tsx -> getWeb3(): ", err);
+//   }
+// };
 
 export default function Home(props: {}) {
   const router = useRouter();
