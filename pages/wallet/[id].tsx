@@ -184,6 +184,7 @@ const fetchOrCreateCollections = async (
   collections: Collection[]
 ): Promise<Wallet> => {
   try {
+    // Create
     await Promise.all([
       collections.map(async (collection: Collection) => {
         console.log("collection: ", collection);
