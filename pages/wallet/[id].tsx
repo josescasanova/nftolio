@@ -40,6 +40,7 @@ interface Props {
   assets: Asset[];
   assetCount: AssetCount;
   ethPrice: number;
+  owner: string;
 }
 
 const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
@@ -125,7 +126,10 @@ export default function Home(props: Props) {
         <div className="flex flex-col mt-8">
           <a href="/">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
-              NFT Portfolio
+              NFT Portfolio for{" "}
+              <a href={`https://etherscan.io/address/${props.owner}`}>
+                {props.owner}
+              </a>
             </h3>
           </a>
           <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
@@ -311,6 +315,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         assetCount: assetCount || {},
         assets: assets || [],
         ethPrice,
+        owner,
       },
     };
   } catch (err) {
@@ -321,6 +326,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         assetCount: {},
         assets: [],
         ethPrice: 0,
+        owner: null,
       },
     };
   }
