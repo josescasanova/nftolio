@@ -181,7 +181,8 @@ const fetchOrCreateWallet = async (owner?: string): Promise<Wallet> => {
 };
 
 const fetchOrCreateCollections = async (
-  collections: Collection[]
+  collections: Collection[],
+  wallet: Wallet
 ): Promise<Wallet> => {
   try {
     // Create
@@ -201,7 +202,7 @@ const fetchOrCreateCollections = async (
         console.log("data: ", data);
         if (!data.length) {
           console.log("inserting record");
-          let { data: newDate, error: insertError } = await supabase
+          let { data: newData, error: insertError } = await supabase
             .from("collection")
             .insert([
               {
@@ -215,9 +216,18 @@ const fetchOrCreateCollections = async (
                 image_url: collection.image_url,
               },
             ]);
+
+          await supabase.from("collection_wallet").insert([
+            {
+              collection_id: newData[0].id,
+              wallet_id: wallet.id,
+              owned_collection_count: collection.owned_asset_count,
+              timestamp_log: new Date(),
+            },
+          ]);
           console.log(insertError);
           console.log(data);
-          return newDate[0];
+          return newData[0];
         }
       }),
     ]);
@@ -432,7 +442,7 @@ export default function Home(props: Props) {
   );
 }
 
-const fetchCollections = async (owner: string) => {
+const fetchCollections = async (owner: string, wallet) => {
   if (process.env.NODE_ENV !== "production") {
     require("dotenv").config();
   }
@@ -446,7 +456,7 @@ const fetchCollections = async (owner: string) => {
     },
   });
 
-  await fetchOrCreateCollections(data);
+  await fetchOrCreateCollections(data, wallet);
 
   return data;
 };
@@ -491,7 +501,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const wallet = await fetchOrCreateWallet(owner);
 
   try {
-    const collections = await fetchCollections(owner);
+    const collections = await fetchCollections(owner, wallet);
     const assets = await fetchAssets(owner);
     const ethPrice = await fetchEthPrice();
 
