@@ -306,7 +306,7 @@ export default function Home(props: Props) {
             <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal py-2">
               NFT Portfolio for{" "}
               <a
-                href={`https://etherscan.io/address/${props.owner}`}
+                href={`https://opensea.io/${props.owner}`}
                 className="text-indigo-900 break-normal"
                 target="_blank"
                 rel="noopener noreferrer"
