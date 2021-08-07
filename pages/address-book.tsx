@@ -47,7 +47,7 @@ export default function AddressBook() {
   return (
     <>
       <Head>
-        <title>nftolio.xyz</title>
+        <title>nftolio.xyz - address book</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />

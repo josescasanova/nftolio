@@ -295,7 +295,7 @@ export default function Home(props: Props) {
   return (
     <>
       <Head>
-        <title>nftolio.xyz</title>
+        <title>nftolio.xyz - wallet</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
