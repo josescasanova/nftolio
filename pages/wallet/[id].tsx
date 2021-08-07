@@ -128,7 +128,13 @@ export default function Home(props: Props) {
           <div className="flex flex-col mt-8">
             <a href="/">
               <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal py-2">
-                NFT Portfolio
+                NFT Portfolio for{" "}
+                <a
+                  href={`https://etherscan.io/address/${props.owner}`}
+                  className="text-indigo-900 break-normal"
+                >
+                  {props.owner}
+                </a>
               </h3>
               <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
                 <a
