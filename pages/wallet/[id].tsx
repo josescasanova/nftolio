@@ -124,120 +124,120 @@ export default function Home(props: Props) {
       </Head>
       <Header />
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <main className="flex flex-col w-full flex-1 px-20">
-        <div className="flex flex-col mt-8">
-          <a href="/">
-            <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal">
-              NFT Portfolio
-               {/* for{" "} */}
-              {/* <a href={`https://etherscan.io/address/${props.owner}`} className="text-indigo-900 break-normal">
+        <main className="flex flex-col w-full flex-1 px-20">
+          <div className="flex flex-col mt-8">
+            <a href="/">
+              <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal">
+                NFT Portfolio
+                {/* for{" "} */}
+                {/* <a href={`https://etherscan.io/address/${props.owner}`} className="text-indigo-900 break-normal">
                 {props.owner}
               </a> */}
-            </h3>
-          </a>
-          <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-            {stats.map((item) => (
-              <div
-                key={item.name}
-                className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
-              >
-                <dt className="text-sm font-medium text-gray-500 truncate">
-                  {item.name}
-                </dt>
-                <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                  {item.stat}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-        <div className="flex flex-col mt-8">
-          <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Collection
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        Owned
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        ETH Floor
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      >
-                        ETH Total
-                      </th>
-                      <th scope="col" className="relative px-6 py-3">
-                        <span className="sr-only">Link</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {collections.map((collection: Collection) => (
-                      <tr key={collection.name}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 h-10 w-10">
-                              {collection.image_url ? (
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src={collection.image_url}
-                                  alt={collection.name}
-                                />
-                              ) : null}
-                            </div>
-                            <div className="ml-4 items-center justify-center">
-                              <div className="text-sm font-medium text-gray-900">
-                                {collection.name}
+              </h3>
+            </a>
+            <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+              {stats.map((item) => (
+                <div
+                  key={item.name}
+                  className="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6"
+                >
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    {item.name}
+                  </dt>
+                  <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                    {item.stat}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="flex flex-col mt-8">
+            <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+              <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Collection
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Owned
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          ETH Floor
+                        </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          ETH Total
+                        </th>
+                        <th scope="col" className="relative px-6 py-3">
+                          <span className="sr-only">Link</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {collections.map((collection: Collection) => (
+                        <tr key={collection.name}>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0 h-10 w-10">
+                                {collection.image_url ? (
+                                  <img
+                                    className="h-10 w-10 rounded-full"
+                                    src={collection.image_url}
+                                    alt={collection.name}
+                                  />
+                                ) : null}
+                              </div>
+                              <div className="ml-4 items-center justify-center">
+                                <div className="text-sm font-medium text-gray-900">
+                                  {collection.name}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {getCountOwned(collection, props.assetCount)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {getFloorInEth(collection)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {getTotalInEth(collection, props.assetCount)}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          {collection.external_url ? (
-                            <a
-                              href={collection.external_url}
-                              className="text-indigo-600 hover:text-indigo-900"
-                            >
-                              Link
-                            </a>
-                          ) : null}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {getCountOwned(collection, props.assetCount)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {getFloorInEth(collection)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {getTotalInEth(collection, props.assetCount)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            {collection.external_url ? (
+                              <a
+                                href={collection.external_url}
+                                className="text-indigo-600 hover:text-indigo-900"
+                              >
+                                Link
+                              </a>
+                            ) : null}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </main>
-      <Footer />
-    </div>
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }
