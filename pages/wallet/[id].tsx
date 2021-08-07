@@ -309,7 +309,7 @@ export default function Home(props: Props) {
                 href={`https://etherscan.io/address/${props.owner}`}
                 className="text-indigo-900 break-normal"
                 target="_blank"
-                              rel="noopener noreferrer"
+                rel="noopener noreferrer"
               >
                 {walletTag || props.owner}
               </a>
