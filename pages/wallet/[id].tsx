@@ -316,22 +316,21 @@ export default function Home(props: Props) {
             </h3>
             <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
               <a
-                href={`https://opensea.io/${props.owner}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-indigo-900 break-normal"
-              >
-                OpenSea
-              </a>
-            </h5>
-            <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
-              <a
                 href={`https://etherscan.io/address/${props.owner}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-indigo-900 break-normal"
               >
                 Etherscan
+              </a>{" "}
+              -{" "}
+              <a
+                href={`https://opensea.io/${props.owner}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-indigo-900 break-normal"
+              >
+                OpenSea
               </a>
             </h5>
             <br />
