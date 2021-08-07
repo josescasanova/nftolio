@@ -316,18 +316,18 @@ const fetchAssets = async (owner: string) => {
   const order = "desc";
   let offset = 0;
   const assets = [];
-  while (offset <= max) {
+  // while (offset <= max) {
     const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
     const { data } = await axios.get(url, {
       headers: {
         "X-API-KEY": process.env.OPENSEA_API_KEY,
       },
     });
-    offset += 1;
-    if (data.assets.length > 0) {
+    // offset += 1;
+    // if (data.assets.length > 0) {
       assets.push(data.assets);
-    }
-  }
+    // }
+  // }
 
   return _.flatten(assets);
 };
