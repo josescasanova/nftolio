@@ -26,6 +26,7 @@ interface Collection {
   image_url?: string;
   name: string;
   owned_asset_count?: number;
+  slug?: string;
 }
 
 interface Asset {
@@ -214,6 +215,7 @@ const fetchOrCreateCollections = async (
                 external_url: collection.external_url,
                 featured_image_url: collection.featured_image_url,
                 image_url: collection.image_url,
+                slug: collection.slug,
               },
             ]);
 
@@ -313,6 +315,8 @@ export default function Home(props: Props) {
             <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
               <a
                 href={`https://etherscan.io/address/${props.owner}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-indigo-900 break-normal"
               >
                 Etherscan
@@ -377,6 +381,9 @@ export default function Home(props: Props) {
                         <th scope="col" className="relative px-6 py-3">
                           <span className="sr-only">Link</span>
                         </th>
+                        <th scope="col" className="relative px-6 py-3">
+                          <span className="sr-only">OpenSea</span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -429,9 +436,23 @@ export default function Home(props: Props) {
                             {collection.external_url ? (
                               <a
                                 href={collection.external_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="text-indigo-600 hover:text-indigo-900"
                               >
                                 Link
+                              </a>
+                            ) : null}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            {collection.slug ? (
+                              <a
+                                href={`https://opensea.io/collection/${collection.slug}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-indigo-600 hover:text-indigo-900"
+                              >
+                                OpenSea
                               </a>
                             ) : null}
                           </td>

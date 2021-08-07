@@ -141,6 +141,7 @@ export default function AddressBook() {
                             <a
                               key={wallet.address}
                               target="_blank"
+                              rel="noopener noreferrer"
                               href={`/wallet/${wallet.address}`}
                             >
                               Link
