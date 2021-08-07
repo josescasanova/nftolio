@@ -22,6 +22,7 @@ export default class BaseDocument extends Document {
           `,
             }}
           />
+          <title>nftolio.xyz - liquid NFT portfolio tracker</title>
           <meta
             name="title"
             content="nftolio.xyz - liquid NFT portfolio tracker"
@@ -30,26 +31,38 @@ export default class BaseDocument extends Document {
             name="description"
             content="Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
           />
-          <meta
-            name="keywords"
-            content="nft, portfolio tracker, nft portfolio tracker, nft portfolio"
-          />
-          <meta name="robots" content="index, follow" />
-          <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-          <meta name="language" content="English" />
-          <meta name="revisit-after" content="7 days" />
-          <meta name="author" content="nftolio.xyz" />
 
-          <meta name="twitter:card" content="summary" />
-          <meta property="og:title" content="nftolio.xyz - NFT value tracker" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://metatags.io/" />
+          <meta
+            property="og:title"
+            content="nftolio.xyz - liquid NFT portfolio tracker"
+          />
           <meta
             property="og:description"
-            content="nftolio.xyz - liquid NFT portfolio tracker. Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
+            content="Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
           />
           <meta
             property="og:image"
-            content="https://nftolio.xyz/images/portfolioimg.jpg"
+            content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png"
           />
+
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta property="twitter:url" content="https://metatags.io/" />
+          <meta
+            property="twitter:title"
+            content="nftolio.xyz - liquid NFT portfolio tracker"
+          />
+          <meta
+            property="twitter:description"
+            content="Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
+          />
+          <meta
+            property="twitter:image"
+            content="https://metatags.io/assets/meta-tags-16a33a6a8531e519cc0936fbba0ad904e52d35f34a46c97a2c9f6f7dd7d336f2.png"
+          />
+
+          <meta name="author" content="nftolio.xyz" />
         </Head>
         <body>
           <Main />
