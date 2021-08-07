@@ -22,6 +22,10 @@ export default class BaseDocument extends Document {
           `,
             }}
           />
+          <meta name="twitter:card" content="summary" />
+          <meta property="og:title" content="nftolio.xyz - NFT value tracker" />
+          <meta property="og:description" content="nftolio.xyz - NFT liquid value tracker. Find out how much your NFT portfolio based on ETH floor prices." />
+          <meta property="og:image" content="https://nftolio.xyz/images/portfolioimg.jpg" />
         </Head>
         <body>
           <Main />
