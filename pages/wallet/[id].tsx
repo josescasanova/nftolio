@@ -65,7 +65,7 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
 
   const floorPrice = collection.stats?.floor_price || 0;
   const total = count * floorPrice;
-  return _.ceil(total * 100, 4) / 100;
+  return _.ceil(total * 100, 2) / 100;
 };
 
 const getTotalInUsd = (
@@ -78,7 +78,7 @@ const getTotalInUsd = (
 
   const floorPrice = collection.stats?.floor_price || 0;
   const total = count * floorPrice * ethPrice;
-  return _.ceil(total * 100, 4) / 100;
+  return currency(_.ceil(total * 100, 2) / 100).format();
 };
 
 // TODO update this to get the highest bids
