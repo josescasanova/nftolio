@@ -3,7 +3,7 @@ import _ from "lodash";
 import Head from "next/head";
 import Footer from "../components/Footer";
 
-export default function List() {
+export default function AddressBook() {
   const [wallets, setWallets] = useState([]);
   const [newWallet, setNewWallet] = useState({
     name: "",
@@ -54,7 +54,7 @@ export default function List() {
         <div className="flex flex-col mt-8">
           <a href="/">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
-              List
+              Address Book
             </h3>
           </a>
         </div>

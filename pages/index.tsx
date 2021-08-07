@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Web3 from "web3";
-import Footer from '../components/Footer';
+import Footer from "../components/Footer";
 
 const getWeb3 = async (isFirstLoad: boolean) => {
   try {
@@ -174,6 +174,7 @@ export default function Home(props: {}) {
           </div>
         </div>
       </div>
- <Footer />
+      <Footer />
+    </>
   );
 }
