@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import axios from "axios";
 import _ from "lodash";
@@ -73,6 +74,7 @@ const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 // TODO track punks
 
 export default function Home(props: Props) {
+  const [walletTag, setWalletTag] = useState(null);
   if (!props.collections.length) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -116,6 +118,20 @@ export default function Home(props: Props) {
     },
   ];
 
+  useEffect(() => {
+    const lsWallets = localStorage.getItem("nft-wallets") || "[]";
+    const jsonWallets = JSON.parse(lsWallets) || [];
+    console.log("jsonWallets: ", jsonWallets);
+    const selectedWallet = _.find(
+      jsonWallets,
+      (w) => w.address === props.owner
+    );
+    console.log("selectedWallet.name: ", selectedWallet.name);
+    if (selectedWallet.name) {
+      setWalletTag(selectedWallet.name);
+    }
+  });
+
   return (
     <>
       <Head>
@@ -133,7 +149,7 @@ export default function Home(props: Props) {
                   href={`https://etherscan.io/address/${props.owner}`}
                   className="text-indigo-900 break-normal"
                 >
-                  {props.owner}
+                  {walletTag || props.owner}
                 </a>
               </h3>
               <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
