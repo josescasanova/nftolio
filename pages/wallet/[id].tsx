@@ -149,7 +149,6 @@ const getData = (props: Props) => {
   };
 };
 
-// TODO type
 const saveWalletLog = async (props: Props, wallet: Wallet) => {
   try {
     console.log("savewalletlog wallet: ", wallet);
