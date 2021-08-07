@@ -68,6 +68,19 @@ const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
   return _.ceil(total * 100, 4) / 100;
 };
 
+const getTotalInUsd = (
+  collection: Collection,
+  assetCount: AssetCount,
+  ethPrice: number
+) => {
+  const count = getCountOwned(collection, assetCount);
+  if (!count) return 0;
+
+  const floorPrice = collection.stats?.floor_price || 0;
+  const total = count * floorPrice * ethPrice;
+  return _.ceil(total * 100, 4) / 100;
+};
+
 // TODO update this to get the highest bids
 const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 
@@ -212,6 +225,12 @@ export default function Home(props: Props) {
                         >
                           ETH Total
                         </th>
+                        <th
+                          scope="col"
+                          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          USD Total
+                        </th>
                         <th scope="col" className="relative px-6 py-3">
                           <span className="sr-only">Link</span>
                         </th>
@@ -255,6 +274,13 @@ export default function Home(props: Props) {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {getTotalInEth(collection, props.assetCount)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {getTotalInUsd(
+                              collection,
+                              props.assetCount,
+                              props.ethPrice
+                            )}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             {collection.external_url ? (
