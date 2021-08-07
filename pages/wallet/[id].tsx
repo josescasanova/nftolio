@@ -49,16 +49,23 @@ interface Props {
 const fetchOrCreateWallet = async (owner?: string) => {
   if (!owner) return;
   try {
+    console.log("fetch");
     let { data: wallet, error } = await supabase
       .from("wallet")
       .select("*")
       .eq("address", owner);
 
     console.log("error: ", error);
+    if (error) return;
 
     console.log("wallet: ", wallet);
-    if (!wallet) {
-      await supabase.from("wallet").insert([{ address: owner }]);
+    if (!wallet.length) {
+      console.log("inserting record");
+      let { data, error: insertError } = await supabase
+        .from("wallet")
+        .insert([{ address: owner }]);
+      console.log(insertError);
+      console.log(data);
     }
   } catch (err) {
     console.log("fetchorcreatewallet err: ", err);
@@ -109,19 +116,7 @@ const getFloorInEth = (collection: Collection) => collection.stats?.floor_price;
 
 // TODO track punks
 
-export default function Home(props: Props) {
-  const [walletTag, setWalletTag] = useState(null);
-  if (!props.collections.length) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen py-2">
-        <div className="text-sm font-medium text-gray-900">
-          No collections found. Try clearing cache or refreshing. prob a rate
-          limit error ¯\_(ツ)_/¯
-        </div>
-      </div>
-    );
-  }
-
+const getData = (props: Props) => {
   const collections = _.reverse(
     _.sortBy(props.collections, (collection) =>
       getTotalInEth(collection, props.assetCount)
@@ -139,20 +134,25 @@ export default function Home(props: Props) {
     _.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)
   ).format();
 
-  const stats = [
-    {
-      name: "Porfolio in ETH",
-      stat: portfolioInEth,
-    },
-    {
-      name: "ETH Price",
-      stat: currency(props.ethPrice).format(),
-    },
-    {
-      name: "Porfolio in USD",
-      stat: portfolioInUsd,
-    },
-  ];
+  return {
+    collections,
+    portfolioInEth,
+    portfolioInUsd,
+  };
+};
+
+export default function Home(props: Props) {
+  const [walletTag, setWalletTag] = useState(null);
+  if (!props.collections.length) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen py-2">
+        <div className="text-sm font-medium text-gray-900">
+          No collections found. Try clearing cache or refreshing. prob a rate
+          limit error ¯\_(ツ)_/¯
+        </div>
+      </div>
+    );
+  }
 
   useEffect(() => {
     const lsWallets = localStorage.getItem("nft-wallets") || "[]";
@@ -167,6 +167,23 @@ export default function Home(props: Props) {
       setWalletTag(selectedWallet.name);
     }
   });
+
+  const { collections, portfolioInEth, portfolioInUsd } = getData(props);
+
+  const stats = [
+    {
+      name: "Porfolio in ETH",
+      stat: portfolioInEth,
+    },
+    {
+      name: "ETH Price",
+      stat: currency(props.ethPrice).format(),
+    },
+    {
+      name: "Porfolio in USD",
+      stat: portfolioInUsd,
+    },
+  ];
 
   return (
     <>
