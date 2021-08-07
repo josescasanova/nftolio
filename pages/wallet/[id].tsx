@@ -267,8 +267,8 @@ export default function Home(props: Props) {
       jsonWallets,
       (w) => w.address === props.owner
     );
-    console.log("selectedWallet.name: ", selectedWallet.name);
-    if (selectedWallet.name) {
+    console.log("selectedWallet.name: ", selectedWallet?.name);
+    if (selectedWallet?.name) {
       setWalletTag(selectedWallet.name);
     }
   });
