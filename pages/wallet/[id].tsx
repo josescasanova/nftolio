@@ -46,8 +46,13 @@ interface Props {
   owner: string;
 }
 
-const fetchOrCreateWallet = async (owner?: string) => {
-  if (!owner) return;
+interface Wallet {
+  id: number;
+  address: string;
+}
+
+const fetchOrCreateWallet = async (owner?: string): Promise<Wallet> => {
+  if (!owner) return null;
   try {
     console.log("fetch");
     let { data: wallet, error } = await supabase
@@ -66,9 +71,12 @@ const fetchOrCreateWallet = async (owner?: string) => {
         .insert([{ address: owner }]);
       console.log(insertError);
       console.log(data);
+      return data[0];
     }
+    return wallet[0];
   } catch (err) {
     console.log("fetchorcreatewallet err: ", err);
+    return null;
   }
 };
 
@@ -139,6 +147,26 @@ const getData = (props: Props) => {
     portfolioInEth,
     portfolioInUsd,
   };
+};
+
+// TODO type
+const saveWalletLog = async (props: Props, wallet: Wallet) => {
+  try {
+    console.log("savewalletlog wallet: ", wallet);
+    const { portfolioInEth, portfolioInUsd } = getData(props);
+    const { data, error } = await supabase
+      .from("wallet_log")
+      .insert([
+        {
+          value_in_eth: portfolioInEth,
+          value_in_usd: portfolioInUsd,
+          wallet_id: wallet.id,
+          timestamp_log: new Date(),
+        },
+      ]);
+  } catch (err) {
+    console.log("err saveWalletLog: ", err);
+  }
 };
 
 export default function Home(props: Props) {
@@ -399,7 +427,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
   const owner = params.id as string | null;
 
-  await fetchOrCreateWallet(owner);
+  const wallet = await fetchOrCreateWallet(owner);
 
   try {
     const collections = await fetchCollections(owner);
@@ -418,14 +446,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     });
 
+    const props = {
+      collections: collections || [],
+      assetCount: assetCount || {},
+      assets: assets || [],
+      ethPrice,
+      owner,
+    };
+
+    await saveWalletLog(props, wallet);
+
     return {
-      props: {
-        collections: collections || [],
-        assetCount: assetCount || {},
-        assets: assets || [],
-        ethPrice,
-        owner,
-      },
+      props,
     };
   } catch (err) {
     console.log(err);
