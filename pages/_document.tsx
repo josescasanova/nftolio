@@ -44,7 +44,7 @@ export default class BaseDocument extends Document {
           <meta property="og:title" content="nftolio.xyz - NFT value tracker" />
           <meta
             property="og:description"
-            content="nftolio.xyz - NFT liquid value tracker. Find out how much your NFT portfolio based on ETH floor prices."
+            content="nftolio.xyz - liquid NFT portfolio tracker. Find out how much, and liquid, your NFT portfolio is based on ETH floor prices."
           />
           <meta
             property="og:image"
