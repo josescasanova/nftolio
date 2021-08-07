@@ -142,27 +142,33 @@ const getData = (props: Props) => {
     _.ceil(_.toNumber(props.ethPrice * portfolioInEth), 2)
   ).format();
 
+  const portfolioInUsdInt = _.ceil(
+    _.toNumber(props.ethPrice * portfolioInEth),
+    2
+  );
+
   return {
     collections,
     portfolioInEth,
     portfolioInUsd,
+    portfolioInUsdInt,
   };
 };
 
 const saveWalletLog = async (props: Props, wallet: Wallet) => {
   try {
     console.log("savewalletlog wallet: ", wallet);
-    const { portfolioInEth, portfolioInUsd } = getData(props);
-    const { data, error } = await supabase
-      .from("wallet_log")
-      .insert([
-        {
-          value_in_eth: portfolioInEth,
-          value_in_usd: portfolioInUsd,
-          wallet_id: wallet.id,
-          timestamp_log: new Date(),
-        },
-      ]);
+    const { portfolioInEth, portfolioInUsdInt } = getData(props);
+    const { data, error } = await supabase.from("wallet_log").insert([
+      {
+        value_in_eth: portfolioInEth,
+        value_in_usd: portfolioInUsdInt,
+        wallet_id: wallet.id,
+        timestamp_log: new Date(),
+      },
+    ]);
+    console.log('walletlog data: ', data);
+    console.log('walletlog err: ', error);
   } catch (err) {
     console.log("err saveWalletLog: ", err);
   }
