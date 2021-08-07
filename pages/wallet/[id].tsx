@@ -142,6 +142,7 @@ export default function Home(props: Props) {
       <div className="flex flex-col items-center justify-center min-h-screen py-2">
         <main className="flex flex-col w-full flex-1 sm:px-2 px-2 lg:px-20">
           <div className="flex flex-col mt-8">
+            {/* Subheader */}
             <a href="/">
               <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal py-2">
                 NFT Portfolio for{" "}
@@ -162,6 +163,7 @@ export default function Home(props: Props) {
               </h5>
               <br />
             </a>
+            {/* Stats */}
             <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
               {stats.map((item) => (
                 <div
@@ -178,6 +180,7 @@ export default function Home(props: Props) {
               ))}
             </dl>
           </div>
+          {/* NFTs Table */}
           <div className="flex flex-col mt-8">
             <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
               <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -230,7 +233,16 @@ export default function Home(props: Props) {
                               </div>
                               <div className="ml-4 items-center justify-center">
                                 <div className="text-sm font-medium text-gray-900">
-                                  {collection.name}
+                                  {collection.external_url ? (
+                                    <a
+                                      href={collection.external_url}
+                                      className="text-indigo-600 hover:text-indigo-900"
+                                    >
+                                      {collection.name}
+                                    </a>
+                                  ) : (
+                                    collection.name
+                                  )}
                                 </div>
                               </div>
                             </div>
