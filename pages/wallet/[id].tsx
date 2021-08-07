@@ -225,6 +225,14 @@ const fetchOrCreateCollections = async (
               timestamp_log: new Date(),
             },
           ]);
+
+          await supabase.from("collection_stats").insert([
+            {
+              collection_id: newData[0].id,
+              eth_floor_price: collection.stats?.floor_price,
+              timestamp_log: new Date(),
+            },
+          ]);
           console.log(insertError);
           console.log(data);
           return newData[0];
