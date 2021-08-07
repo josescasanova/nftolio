@@ -156,26 +156,24 @@ export default function Home(props: Props) {
         <main className="flex flex-col w-full flex-1 sm:px-2 px-2 lg:px-20">
           <div className="flex flex-col mt-8">
             {/* Subheader */}
-            <a href="/">
-              <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal py-2">
-                NFT Portfolio for{" "}
-                <a
-                  href={`https://etherscan.io/address/${props.owner}`}
-                  className="text-indigo-900 break-normal"
-                >
-                  {walletTag || props.owner}
-                </a>
-              </h3>
-              <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
-                <a
-                  href={`https://etherscan.io/address/${props.owner}`}
-                  className="text-indigo-900 break-normal"
-                >
-                  Etherscan
-                </a>
-              </h5>
-              <br />
-            </a>
+            <h3 className="text-lg leading-6 font-medium text-gray-700 break-normal py-2">
+              NFT Portfolio for{" "}
+              <a
+                href={`https://etherscan.io/address/${props.owner}`}
+                className="text-indigo-900 break-normal"
+              >
+                {walletTag || props.owner}
+              </a>
+            </h3>
+            <h5 className="text-sm leading-3 font-small text-gray-400 break-normal">
+              <a
+                href={`https://etherscan.io/address/${props.owner}`}
+                className="text-indigo-900 break-normal"
+              >
+                Etherscan
+              </a>
+            </h5>
+            <br />
             {/* Stats */}
             <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
               {stats.map((item) => (
