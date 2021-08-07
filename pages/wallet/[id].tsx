@@ -6,6 +6,7 @@ import { GetServerSideProps } from "next";
 import currency from "currency.js";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
+import db from '../../db';
 
 interface Collection {
   asset_contract?: {
@@ -59,7 +60,7 @@ const getCountOwned = (collection: Collection, assetCount: AssetCount) => {
   return assetCount[contract];
 };
 
-const getTotalInEth = (collection: Collection, assetCount: AssetCount) => {
+const getTotalInEth = (collection: Collection, assetCount: AssetCount): number => {
   const count = getCountOwned(collection, assetCount);
   if (!count) return 0;
 
@@ -72,9 +73,9 @@ const getTotalInUsd = (
   collection: Collection,
   assetCount: AssetCount,
   ethPrice: number
-) => {
+) : string => {
   const count = getCountOwned(collection, assetCount);
-  if (!count) return 0;
+  if (!count) return '$0';
 
   const floorPrice = collection.stats?.floor_price || 0;
   const total = count * floorPrice * ethPrice;
