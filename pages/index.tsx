@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Web3 from "web3";
+import Footer from '../components/Footer';
 
 const getWeb3 = async (isFirstLoad: boolean) => {
   try {
@@ -173,14 +174,6 @@ export default function Home(props: {}) {
           </div>
         </div>
       </div>
-      <footer>
-        <a
-          href="https://github.com/0x-icy/nftolio"
-          className="text-indigo-600 hover:text-indigo-900"
-        >
-          Github
-        </a>
-      </footer>
-    </>
+ <Footer />
   );
 }

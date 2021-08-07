@@ -3,6 +3,7 @@ import axios from "axios";
 import _ from "lodash";
 import { GetServerSideProps } from "next";
 import currency from "currency.js";
+import Footer from "../../components/Footer";
 
 interface Collection {
   asset_contract?: {
@@ -270,22 +271,7 @@ export default function Home(props: Props) {
           </div>
         </div>
       </main>
-      <footer>
-        <a href="/" className="text-indigo-600 hover:text-indigo-900">
-          Home
-        </a>
-        <br />
-        <a href="/list" className="text-indigo-600 hover:text-indigo-900">
-          List
-        </a>
-        <br />
-        <a
-          href="https://github.com/0x-icy/nftolio"
-          className="text-indigo-600 hover:text-indigo-900"
-        >
-          Github
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }
@@ -317,16 +303,16 @@ const fetchAssets = async (owner: string) => {
   let offset = 0;
   const assets = [];
   // while (offset <= max) {
-    const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
-    const { data } = await axios.get(url, {
-      headers: {
-        "X-API-KEY": process.env.OPENSEA_API_KEY,
-      },
-    });
-    // offset += 1;
-    // if (data.assets.length > 0) {
-      assets.push(data.assets);
-    // }
+  const url = `https://api.opensea.io/api/v1/assets?owner=${owner}&order_direction=${order}&offset=${offset}&limit=${limit}`;
+  const { data } = await axios.get(url, {
+    headers: {
+      "X-API-KEY": process.env.OPENSEA_API_KEY,
+    },
+  });
+  // offset += 1;
+  // if (data.assets.length > 0) {
+  assets.push(data.assets);
+  // }
   // }
 
   return _.flatten(assets);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import Head from "next/head";
+import Footer from "../components/Footer";
 
 export default function List() {
   const [wallets, setWallets] = useState([]);
@@ -157,18 +158,7 @@ export default function List() {
           </div>
         </div>
       </main>
-      <footer>
-        <a href="/" className="text-indigo-600 hover:text-indigo-900">
-          Home
-        </a>
-        <br />
-        <a
-          href="https://github.com/0x-icy/nftolio"
-          className="text-indigo-600 hover:text-indigo-900"
-        >
-          Github
-        </a>
-      </footer>
+      <Footer />
     </div>
   );
 }
